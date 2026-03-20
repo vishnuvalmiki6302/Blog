@@ -1048,6 +1048,18 @@ strong {
     align-items: center;
 }
 
+@media (min-width: 901px) {
+    .project-item:nth-child(even) {
+        grid-template-columns: 1fr 1.1fr;
+    }
+    .project-item:nth-child(even) .pi-visual {
+        order: 2;
+    }
+    .project-item:nth-child(even) .pi-content {
+        order: 1;
+    }
+}
+
 .project-item:first-child {
     border-top: 1px solid var(--c-line);
 }
