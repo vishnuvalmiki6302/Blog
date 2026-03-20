@@ -71,7 +71,8 @@ export default function App() {
     setFormStatus('loading');
     const data = Object.fromEntries(new FormData(e.target));
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const apiUrl = (import.meta.env.VITE_API_URL || 'https://blog-sigma-six.vercel.app').replace(/\/$/, "");
+      const res = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST', headers: {'Content-Type':'application/json'},
         body: JSON.stringify(data),
       });
