@@ -11,6 +11,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Root Route for Testing
+app.get('/', (req, res) => {
+    res.send('Backend Server is Running! 🚀');
+});
+
 // Transporter Setup
 const transporter = nodemailer.createTransport({
     service: 'gmail',
