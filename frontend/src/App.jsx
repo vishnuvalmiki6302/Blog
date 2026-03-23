@@ -68,17 +68,23 @@ export default function App() {
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setFormStatus('loading');
     const data = Object.fromEntries(new FormData(e.target));
-    try {
-      const apiUrl = (import.meta.env.VITE_API_URL || 'https://blog-sigma-six.vercel.app').replace(/\/$/, "");
-      const res = await fetch(`${apiUrl}/api/contact`, {
-        method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(data),
-      });
-      if(res.ok) { setFormStatus('success'); e.target.reset(); setTimeout(() => setFormStatus(''), 6000); }
-      else { setFormStatus('error'); setTimeout(() => setFormStatus(''), 5000); }
-    } catch(err) { setFormStatus('error'); setTimeout(() => setFormStatus(''), 5000); }
+    
+    // Optimistic UI: Show success immediately!
+    setFormStatus('success');
+    e.target.reset();
+    
+    // Fire and forget fetch in the background
+    const apiUrl = (import.meta.env.VITE_API_URL || 'https://blog-sigma-six.vercel.app').replace(/\/$/, "");
+    fetch(`${apiUrl}/api/contact`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data),
+    }).catch(err => {
+      console.error('Background submission error:', err);
+    });
+    
+    // Auto-clear success status after 6 seconds
+    setTimeout(() => setFormStatus(''), 6000);
   };
 
   return (
@@ -92,7 +98,7 @@ export default function App() {
       <Certifications />
       <Achievements />
       <Education />
-      <Contact handleContactSubmit={handleContactSubmit} formStatus={formStatus} />
+      <Contact handleContactSubmit={handleContactSubmit} formStatus={formStatus} setFormStatus={setFormStatus} />
       <Footer />
     </div>
   );

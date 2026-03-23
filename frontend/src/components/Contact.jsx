@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Contact({ handleContactSubmit, formStatus }) {
+export default function Contact({ handleContactSubmit, formStatus, setFormStatus }) {
   return (
     <>
       {/* CONTACT */}
@@ -108,22 +108,7 @@ export default function Contact({ handleContactSubmit, formStatus }) {
                         ) : 'Send Message'}
                     </button>
 
-                    <div className={`form-feedback ${formStatus && formStatus !== 'loading' ? 'active' : ''}`}>
-                        {formStatus === 'success' && (
-                            <div className="form-toast form-toast-success" role="alert">
-                                <div className="toast-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                                        <polyline points="22 4 12 14.01 9 11.01" />
-                                    </svg>
-                                </div>
-                                <div className="toast-content">
-                                    <p className="toast-title">Message Sent!</p>
-                                    <p className="toast-desc">Thank you for reaching out. I'll reply within 24 hours.</p>
-                                </div>
-                            </div>
-                        )}
-
+                    <div className={`form-feedback ${formStatus === 'error' ? 'active' : ''}`}>
                         {formStatus === 'error' && (
                             <div className="form-toast form-toast-error" role="alert">
                                 <div className="toast-icon">
@@ -142,6 +127,30 @@ export default function Contact({ handleContactSubmit, formStatus }) {
                     </div>
                 </form>
 
+            </div>
+        </div>
+
+        {/* SUCCESS MODAL */}
+        <div className={`success-modal-overlay ${formStatus === 'success' ? 'active' : ''}`}>
+            <div className="success-modal-card">
+                <div className="success-content-inner">
+                    <div className="success-icon-wrap">
+                        <svg viewBox="0 0 52 52">
+                            <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                    <h3 className="success-title">Success!</h3>
+                    <p className="success-text">
+                        Thank you for reaching out. Your message has been sent successfully.
+                    </p>
+                    <button 
+                        className="success-close-btn" 
+                        onClick={() => setFormStatus('')}
+                        type="button"
+                    >
+                        Back to Home
+                    </button>
+                </div>
             </div>
         </div>
     </section>
