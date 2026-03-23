@@ -70,20 +70,33 @@ export default function App() {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
     
-    // Optimistic UI: Show success immediately!
-    setFormStatus('success');
-    e.target.reset();
+    // Set to loading
+    setFormStatus('loading');
     
-    // Fire and forget fetch in the background
+    // Define the URL (allowing for environment override or default)
     const apiUrl = (import.meta.env.VITE_API_URL || 'https://blog-sigma-six.vercel.app').replace(/\/$/, "");
-    fetch(`${apiUrl}/api/contact`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(data),
-    }).catch(err => {
-      console.error('Background submission error:', err);
-    });
     
-    // Auto-clear success status after 6 seconds
+    try {
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        e.target.reset();
+      } else {
+        const errData = await response.json();
+        console.error('API selection error status:', response.status, errData);
+        setFormStatus('error');
+      }
+    } catch (err) {
+      console.error('Network or fetch error:', err);
+      setFormStatus('error');
+    }
+    
+    // Auto-clear success/error status after 6 seconds
     setTimeout(() => setFormStatus(''), 6000);
   };
 

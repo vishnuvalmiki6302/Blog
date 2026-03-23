@@ -92,17 +92,21 @@ app.post('/api/contact', async (req, res) => {
         `
     };
 
-    // Respond immediately to the frontend to keep it snappy.
-    res.status(200).json({ success: true, message: 'Message processing initiated!' });
-    
-    // Background email sending
-    transporter.sendMail(mailOptions)
-        .then(info => {
-            console.log('✅ Email sent successfully:', info.messageId);
-        })
-        .catch(error => {
-            console.error('❌ Background Nodemailer Error:', error);
+    try {
+        // Wait for email to be sent BEFORE responding to frontend
+        const info = await transporter.sendMail(mailOptions);
+        console.log('✅ Email sent successfully:', info.messageId);
+        
+        // Respond with success AFTER email is definitely sent
+        return res.status(200).json({ success: true, message: 'Message sent successfully!' });
+    } catch (error) {
+        console.error('❌ Nodemailer Error:', error);
+        return res.status(500).json({ 
+            success: false, 
+            message: 'Failed to send message. Please try again.',
+            error: error.message 
         });
+    }
 });
 
 if (process.env.NODE_ENV !== 'production') {
