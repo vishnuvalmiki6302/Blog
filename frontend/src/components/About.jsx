@@ -16,7 +16,7 @@ export default function About() {
 
                         <div className="about-rich-content">
                             <p className="body-text">
-                                I'm a final-year <strong>Computer Science Engineer</strong> currently studying at Lovely
+                                I'm a Third-year <strong>Computer Science Engineer</strong> currently studying at Lovely
                                 Professional University. My core philosophy relies on bridging robust backend logic with
                                 seamless user interfaces and automated cloud infrastructure. I don't just write code; I design modular,
                                 scalable systems and streamline deployments end-to-end.
