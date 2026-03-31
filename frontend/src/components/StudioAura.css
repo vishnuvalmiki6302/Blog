@@ -1,0 +1,82 @@
+.studio-aura-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: #06050a;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.studio-spotlight {
+    position: absolute;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 65%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(80px);
+}
+
+.studio-glow {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+}
+
+.studio-glow-indigo {
+    background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+    top: -10vw;
+    left: -15vw;
+}
+
+.studio-glow-amber {
+    background: radial-gradient(circle, #f59e0b 0%, transparent 70%); /* Amber matches the badge */
+    bottom: -10vw;
+    right: -15vw;
+    opacity: 0.15; /* Subtler warm glow */
+}
+
+/* The "2 lines" restored but with themed colors */
+.studio-line {
+    position: absolute;
+    top: 40%;
+    left: -30%;
+    width: 160%;
+    height: 100%;
+    border-top: 2px solid transparent;
+    border-radius: 60% 60% 0 0;
+    transform: rotate(-12deg);
+    opacity: 0.4;
+}
+
+.studio-line-1 {
+    border-top-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 -20px 80px rgba(99, 102, 241, 0.6);
+    animation: studio-sway 14s ease-in-out infinite alternate;
+}
+
+.studio-line-2 {
+    top: 45%;
+    border-top-color: rgba(245, 158, 11, 0.15); /* Warm light for the second line */
+    box-shadow: 0 -15px 70px rgba(245, 158, 11, 0.25);
+    animation: studio-sway 18s ease-in-out infinite alternate-reverse;
+}
+
+.studio-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes studio-sway {
+    0% { transform: rotate(-12deg) translateY(0); }
+    100% { transform: rotate(-14deg) translateY(10px); }
+}
